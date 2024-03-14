@@ -1,6 +1,6 @@
 # Graphs - Algorithms and data structure Repository
 
-This repository is dedicated to the "Graphs - Algorithms and data structure Repository" project, a comprehensive Java-based database project encompassing CRUD operations, balanced interleaving (sorting in secondary memory), data structures, compression, pattern matches, and cryptography.
+This repository is dedicated to the "Graphs - Algorithms and data structure Repository" project.
 
 ## Project Overview
 
