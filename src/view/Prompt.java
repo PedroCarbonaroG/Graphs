@@ -33,7 +33,8 @@ public class Prompt {
             System.out.println("(3) -> Graph with 10.000 vertexes.");
             System.out.println("(4) -> Graph with 100.000 vertexes.");
             System.out.println("================================== HUB ==================================");
-            System.out.print("Answer: "); short answer = userSc.nextShort();
+            System.out.print("Answer: "); short userChoice = userSc.nextShort();
+
         }
 
         catch(FileNotFoundException e) { e.printStackTrace(); }

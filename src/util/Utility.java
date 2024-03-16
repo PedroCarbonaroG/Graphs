@@ -1,8 +1,16 @@
 package util;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Utility {
     
@@ -57,8 +65,42 @@ public class Utility {
      * @param source File that will have the generated graph
      * @param limit maximum number of vertices
      */
-    private static void createRandomGraph(File source, int limit) {
-        //To implementate an algoritmn that creates a random graph with limit of vertexes
+    private static void createRandomGraph(File file, int numVertices) throws IOException {
+        Random random = new Random();
+        Set<String> edgesSet = new HashSet<>();
+
+        for (int i = 1; i <= numVertices; i++) {
+
+            int target = random.nextInt(numVertices) + 1;
+            edgesSet.add(Math.min(i, target) + " - " + Math.max(i, target));
+
+            int numEdges = random.nextInt(numVertices - 1);
+            for (int j = 0; j < numEdges; j++) {
+                int otherTarget = random.nextInt(numVertices) + 1;
+                if (otherTarget != i && otherTarget != target) {
+                    String edge = Math.min(i, otherTarget) + " - " + Math.max(i, otherTarget);
+                    edgesSet.add(edge);
+                }
+            }
+        }
+
+        List<String> edges = new ArrayList<>(edgesSet);
+        Collections.sort(edges, new Comparator<String>() {
+            @Override
+            public int compare(String edge1, String edge2) {
+                int v1 = Integer.parseInt(edge1.split(" - ")[0]);
+                int v2 = Integer.parseInt(edge2.split(" - ")[0]);
+                return Integer.compare(v1, v2);
+            }
+        });
+
+        PrintWriter writer = new PrintWriter(new FileWriter(file));
+        writer.println(numVertices);
+
+        for (String edge : edges) {
+            writer.println(edge);
+        }
+        writer.close();
     }
 
     /**
