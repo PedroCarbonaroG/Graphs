@@ -35,6 +35,12 @@ public class Prompt {
             System.out.println("================================== HUB ==================================");
             System.out.print("Answer: "); short userChoice = userSc.nextShort();
 
+            //======================================== NOT DONE YET ===============================================
+            while (validChoice(userChoice, 4)) {
+                System.out.println("\nInvalid choice, try again!");
+                System.out.println("New Choice: "); userChoice = userSc.nextShort();
+            }
+            //======================================== NOT DONE YET ===============================================
         }
 
         catch(FileNotFoundException e) { e.printStackTrace(); }
@@ -52,4 +58,15 @@ public class Prompt {
             // System.out.println("Program Finished!");
         }
     }
+
+    //======================================== NOT DONE YET ===============================================
+    /**
+     * Validchecker method.
+     * 
+     * @param int x -> Variable used to check if that option
+     * is valid for the application.
+     * @param int limit -> Variable used to set the limit
+    */
+    private boolean validChoice(int x, int limit) { return x >= 0 && x < limit; }
+    //======================================== NOT DONE YET ===============================================
 }
