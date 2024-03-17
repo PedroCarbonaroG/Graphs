@@ -32,13 +32,13 @@ public class Utility {
     // Utility Methods
 
     /**
-     * @brief.: Create and fill with random values
+     * @brief Create and fill with random values
      * all files used in system for manipulate 
      * graphs
      * @throws IOException if something goes wrong 
      * opening or manipulating the file
     */
-    public static void createGraphFiles() throws IOException {
+    public static void createGraphs() throws IOException {
         graph100File = new File(GRAPH100_FILE_PATH);
         graph100File.createNewFile();
         createRandomGraph(graph100File, 100, 200);
@@ -56,7 +56,7 @@ public class Utility {
         createRandomGraph(graph100KFile, 100000, 200000);
     }
     /**
-     * @brief.: Method for create an random graph 
+     * @brief Method for create an random graph 
      * and save the outs in a file
      * 
      * @param source File that will have the generated graph
@@ -105,10 +105,10 @@ public class Utility {
     }
 
     /**
-     * @brief.: Delete all files used in system 
+     * @brief Delete all files used in system 
      * for manipulate graphs
     */
-    public static void deleteGraphFiles() {
+    public static void deleteGraphs() {
         graph100File.delete();
         graph1KFile.delete();
         graph10KFile.delete();
@@ -116,7 +116,7 @@ public class Utility {
     }
 
     /**
-     * @brief.: ClearScreen method, clear the
+     * @brief ClearScreen method, clear the
      * screen every interation with user, good
      * for clean usage of system
     */

@@ -24,7 +24,7 @@ public class Prompt {
         try {
 
             Utility.clearScreen();
-            Utility.createGraphFiles();
+            Utility.createGraphs();
 
             System.out.println("================================== HUB ==================================");
             System.out.println("How graph file will be tested, Options:");
@@ -48,7 +48,7 @@ public class Prompt {
         catch(IOException e) { e.printStackTrace(); }
 
         finally {
-            Utility.deleteGraphFiles(); 
+            Utility.deleteGraphs(); 
             if (fileSc != null && userSc != null) { 
                 fileSc.close(); 
                 userSc.close();
