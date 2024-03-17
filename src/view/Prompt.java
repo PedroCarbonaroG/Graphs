@@ -28,19 +28,20 @@ public class Prompt {
 
             System.out.println("================================== HUB ==================================");
             System.out.println("How graph file will be tested, Options:");
+            System.out.println("Note: All graphs have twice as many edges as vertices.");
             System.out.println("(1) -> Graph with 100 vertexes.");
             System.out.println("(2) -> Graph with 1.000 vertexes.");
             System.out.println("(3) -> Graph with 10.000 vertexes.");
             System.out.println("(4) -> Graph with 100.000 vertexes.");
+            System.out.println("");
+            System.out.println("(0) -> Finish program.");
             System.out.println("================================== HUB ==================================");
             System.out.print("Answer: "); short userChoice = userSc.nextShort();
 
-            //======================================== NOT DONE YET ===============================================
-            while (validChoice(userChoice, 4)) {
+            while (!validChoice(userChoice, 4)) {
                 System.out.println("\nInvalid choice, try again!");
-                System.out.println("New Choice: "); userChoice = userSc.nextShort();
+                System.out.print("New Choice: "); userChoice = userSc.nextShort();
             }
-            //======================================== NOT DONE YET ===============================================
         }
 
         catch(FileNotFoundException e) { e.printStackTrace(); }
@@ -53,13 +54,11 @@ public class Prompt {
                 userSc.close();
             }
 
-            // Include at the end of the project->
-            // Utility.clearScreen();
-            // System.out.println("Program Finished!");
+            Utility.clearScreen();
+            System.out.println("Program Finished!");
         }
     }
 
-    //======================================== NOT DONE YET ===============================================
     /**
      * Validchecker method.
      * 
@@ -67,6 +66,5 @@ public class Prompt {
      * is valid for the application.
      * @param int limit -> Variable used to set the limit
     */
-    private boolean validChoice(int x, int limit) { return x >= 0 && x < limit; }
-    //======================================== NOT DONE YET ===============================================
+    private boolean validChoice(int x, int limit) { return x >= 0 && x <= limit; }
 }

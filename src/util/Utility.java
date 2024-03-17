@@ -1,16 +1,15 @@
 package util;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Utility {
     
@@ -21,15 +20,13 @@ public class Utility {
     private static final String GRAPH1K_FILE_PATH = "./lib/Graph1K.txt";
     private static final String GRAPH10K_FILE_PATH = "./lib/Graph10K.txt";
     private static final String GRAPH100K_FILE_PATH = "./lib/Graph100K.txt";
+
     public static File graph100File;
     public static File graph1KFile;
     public static File graph10KFile;
     public static File graph100KFile;
 
-    /*
-     * Additional classes for creating graphs
-    */
-    private static Random rd = new Random();
+    private static final Random random = new Random();
 
     // ==========================================================================================================================================
     // Utility Methods
@@ -44,66 +41,68 @@ public class Utility {
     public static void createGraphFiles() throws IOException {
         graph100File = new File(GRAPH100_FILE_PATH);
         graph100File.createNewFile();
-        createRandomGraph(graph100File, 100);
+        createRandomGraph(graph100File, 100, 200);
 
         graph1KFile = new File(GRAPH1K_FILE_PATH);
         graph1KFile.createNewFile();
-        createRandomGraph(graph1KFile, 1000);
+        createRandomGraph(graph1KFile, 1000, 2000);
 
         graph10KFile = new File(GRAPH10K_FILE_PATH);
         graph10KFile.createNewFile();
-        createRandomGraph(graph10KFile, 10000);
+        createRandomGraph(graph10KFile, 10000, 20000);
         
         graph100KFile = new File(GRAPH100K_FILE_PATH);
         graph100KFile.createNewFile();
-        createRandomGraph(graph100KFile, 100000);
+        createRandomGraph(graph100KFile, 100000, 200000);
     }
-    //============================================================ NOT DONE YET ===================================================================
     /**
      * @brief.: Method for create an random graph 
      * and save the outs in a file
      * 
      * @param source File that will have the generated graph
-     * @param limit maximum number of vertices
+     * @param vertexes maximum number of vertices
+     * @param edges maximum number of edges
+     * @throws IOException if something goes wrong with file manipulation
      */
-    private static void createRandomGraph(File file, int numVertices) throws IOException {
-        Random random = new Random();
-        Set<String> edgesSet = new HashSet<>();
+    private static void createRandomGraph(File file, int vertexes, int edges) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-        for (int i = 1; i <= numVertices; i++) {
+        writer.write(vertexes + " " + edges);
+        writer.newLine();
 
-            int target = random.nextInt(numVertices) + 1;
-            edgesSet.add(Math.min(i, target) + " - " + Math.max(i, target));
+        Set<String> generatedEdges = new HashSet<>();
 
-            int numEdges = random.nextInt(numVertices - 1);
-            for (int j = 0; j < numEdges; j++) {
-                int otherTarget = random.nextInt(numVertices) + 1;
-                if (otherTarget != i && otherTarget != target) {
-                    String edge = Math.min(i, otherTarget) + " - " + Math.max(i, otherTarget);
-                    edgesSet.add(edge);
-                }
+        for (int i = 1; i <= vertexes; i++) {
+            int target = random.nextInt(vertexes) + 1;
+            while (target == i) {
+                target = random.nextInt(vertexes) + 1;
+            }
+            generatedEdges.add(i + " " + target);
+        }
+
+        while (generatedEdges.size() < edges) {
+            int entry = random.nextInt(vertexes) + 1;
+            int target = random.nextInt(vertexes) + 1;
+            if (entry != target) {
+                generatedEdges.add(entry + " " + target);
             }
         }
 
-        List<String> edges = new ArrayList<>(edgesSet);
-        Collections.sort(edges, new Comparator<String>() {
-            @Override
-            public int compare(String edge1, String edge2) {
-                int v1 = Integer.parseInt(edge1.split(" - ")[0]);
-                int v2 = Integer.parseInt(edge2.split(" - ")[0]);
-                return Integer.compare(v1, v2);
-            }
-        });
+        List<String> sortedEdges = generatedEdges.stream()
+                .sorted((a, b) -> {
+                    int vertexA1 = Integer.parseInt(a.split(" ")[0]);
+                    int vertexB1 = Integer.parseInt(b.split(" ")[0]);
+                    return Integer.compare(vertexA1, vertexB1);
+                })
+        .collect(Collectors.toList());
 
-        PrintWriter writer = new PrintWriter(new FileWriter(file));
-        writer.println(numVertices);
-
-        for (String edge : edges) {
-            writer.println(edge);
+        for (String edge : sortedEdges) {
+            writer.write(edge);
+            writer.newLine();
         }
+
         writer.close();
     }
-    //============================================================ NOT DONE YET ===================================================================
 
     /**
      * @brief.: Delete all files used in system 
