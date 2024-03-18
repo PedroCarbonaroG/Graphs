@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import java.util.Scanner;
 
+import entities.Graph;
+
 import util.Utility;
 
 /*
@@ -24,7 +26,7 @@ public class Prompt {
         try {
 
             Utility.clearScreen();
-            Utility.createGraphs();
+            Graph.createGraphs();
 
             System.out.println("================================== HUB ==================================");
             System.out.println("How graph file will be tested, Options:");
@@ -48,7 +50,7 @@ public class Prompt {
         catch(IOException e) { e.printStackTrace(); }
 
         finally {
-            Utility.deleteGraphs(); 
+            Graph.deleteGraphs(); 
             if (fileSc != null && userSc != null) { 
                 fileSc.close(); 
                 userSc.close();
