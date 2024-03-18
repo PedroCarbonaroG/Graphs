@@ -1,14 +1,14 @@
+//Dependencys
 package entities;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
+
 import java.util.Random;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import util.List;
 
 public class Graph {
     
@@ -24,7 +24,6 @@ public class Graph {
     public static File graph1KFile;
     public static File graph10KFile;
     public static File graph100KFile;
-
 
     private static final Random random = new Random();
 
@@ -64,38 +63,47 @@ public class Graph {
     private static void createRandomGraph(File file, int vertexes, int edges) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 
-        writer.write(vertexes + " " + edges);
-        writer.newLine();
-
-        Set<String> generatedEdges = new HashSet<>();
-
-        for (int i = 1; i <= vertexes; i++) {
-            int target = random.nextInt(vertexes) + 1;
-            while (target == i) {
-                target = random.nextInt(vertexes) + 1;
-            }
-            generatedEdges.add(i + " " + target);
+        List[] adjacencyList = new List[vertexes];
+        
+        for (int i = 0; i < adjacencyList.length; i++) {
+            adjacencyList[i] = new List();
         }
 
-        while (generatedEdges.size() < edges) {
-            int entry = random.nextInt(vertexes) + 1;
-            int target = random.nextInt(vertexes) + 1;
-            if (entry != target) {
-                generatedEdges.add(entry + " " + target);
+        int numEdges = (vertexes * (vertexes - 1)) / 2;
+        int numEdgesPerVertex = numEdges / vertexes;
+        int edgesPreenched = 0;
+
+        for (int i = 0, index = 1; i < adjacencyList.length; i++, index++) {
+            adjacencyList[i].add(index);
+
+            for (int j = 0; j < random.nextInt(1, numEdgesPerVertex); j++) {
+                
+                int ale2 = random.nextInt(1, vertexes);
+                
+                while (adjacencyList[i].contains(ale2)) {
+                    ale2 = random.nextInt(1, vertexes);
+                }
+
+                adjacencyList[i].add(ale2);
+                edgesPreenched++;
             }
         }
 
-        List<String> sortedEdges = generatedEdges.stream()
-                .sorted((a, b) -> {
-                    int vertexA1 = Integer.parseInt(a.split(" ")[0]);
-                    int vertexB1 = Integer.parseInt(b.split(" ")[0]);
-                    return Integer.compare(vertexA1, vertexB1);
-                })
-        .collect(Collectors.toList());
+        while (edgesPreenched < numEdges) {
 
-        for (String edge : sortedEdges) {
-            writer.write(edge);
-            writer.newLine();
+            int ale1 = random.nextInt(1, vertexes);
+            int ale2 = random.nextInt(1, vertexes);
+
+            while (adjacencyList[ale1].contains(ale2)) {
+                ale2 = random.nextInt(1, vertexes);
+            }
+
+            adjacencyList[ale1].add(ale2);
+            edgesPreenched++;
+        }
+
+        for (List list : adjacencyList) {
+            System.out.println(list);
         }
 
         writer.close();
