@@ -3,12 +3,15 @@ package util;
 
 /*
  * Simple linked list implemented for
- * manipulate graphs using linked adjacency list
+ * manipulate graphs using linked adjacency list.
  *
  * This class does not have all the usual methods 
  * of standard list classes because it was made 
  * only for manipulating and structuring graphs 
  * in this system.
+ * 
+ * This class implements only methods that'll 
+ * be needed for the system.
 */
 public class List {
     
@@ -19,16 +22,6 @@ public class List {
     public List() {
         this.head = new Node();
         this.tail = head;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(head.getNext().getElement() + ": ");
-        for (Node n = head.getNext().getNext(); n != null; n = n.getNext()) {
-            sb.append(n.getElement() + " -> ");
-        }
-        return sb.toString();
     }
 
     /**
@@ -57,6 +50,16 @@ public class List {
             }
         }
         return contain;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(head.getNext().getElement() + ": ");
+        for (Node n = head.getNext().getNext(); n != null; n = n.getNext()) {
+            sb.append(n.getElement() + " -> ");
+        }
+        return sb.toString();
     }
 
 }

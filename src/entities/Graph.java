@@ -25,7 +25,7 @@ public class Graph {
     public static File graph10KFile;
     public static File graph100KFile;
 
-    private static final Random random = new Random();
+    private static Random random = new Random();
 
     /**
      * @brief Create and fill with random values
@@ -37,19 +37,19 @@ public class Graph {
     public static void createGraphs() throws IOException {
         graph100File = new File(GRAPH100_FILE_PATH);
         graph100File.createNewFile();
-        createRandomGraph(graph100File, 100, 200);
+        createRandomGraph(graph100File, 100);
 
         graph1KFile = new File(GRAPH1K_FILE_PATH);
         graph1KFile.createNewFile();
-        createRandomGraph(graph1KFile, 1000, 2000);
+        createRandomGraph(graph1KFile, 10);
 
         graph10KFile = new File(GRAPH10K_FILE_PATH);
         graph10KFile.createNewFile();
-        createRandomGraph(graph10KFile, 10000, 20000);
+        createRandomGraph(graph10KFile, 10);
         
         graph100KFile = new File(GRAPH100K_FILE_PATH);
         graph100KFile.createNewFile();
-        createRandomGraph(graph100KFile, 100000, 200000);
+        createRandomGraph(graph100KFile, 10);
     }
     /**
      * @brief Method for create an random graph 
@@ -57,53 +57,51 @@ public class Graph {
      * 
      * @param source File that will have the generated graph
      * @param vertexes maximum number of vertices
-     * @param edges maximum number of edges
-     * @throws IOException if something goes wrong with file manipulation
+     * @throws IOException if something goes wrong with file manipulation or opening
      */
-    private static void createRandomGraph(File file, int vertexes, int edges) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+    private static void createRandomGraph(File source, int vertexes) throws IOException {
 
+        BufferedWriter writer = new BufferedWriter(new FileWriter(source));
         List[] adjacencyList = new List[vertexes];
-        
-        for (int i = 0; i < adjacencyList.length; i++) {
-            adjacencyList[i] = new List();
-        }
 
-        int numEdges = (vertexes * (vertexes - 1)) / 2;
-        int numEdgesPerVertex = numEdges / vertexes;
+        for (int i = 0; i < adjacencyList.length; i++) { adjacencyList[i] = new List(); }
+
+        int edges = (vertexes * (vertexes - 1)) / 2;
+        int edgesPerVertex = edges / vertexes;
         int edgesPreenched = 0;
 
-        for (int i = 0, index = 1; i < adjacencyList.length; i++, index++) {
-            adjacencyList[i].add(index);
+        for (int i = 0, j = 1; i < adjacencyList.length; i++, j++) {
+            adjacencyList[i].add(j);
 
-            for (int j = 0; j < random.nextInt(1, numEdgesPerVertex); j++) {
-                
-                int ale2 = random.nextInt(1, vertexes);
-                
-                while (adjacencyList[i].contains(ale2)) {
-                    ale2 = random.nextInt(1, vertexes);
+            for (int k = 0; k < random.nextInt(1, edgesPerVertex); k++) {
+
+                int randomVertex = random.nextInt(1, vertexes);
+                while (adjacencyList[i].contains(randomVertex)) {
+                    randomVertex = random.nextInt(1, vertexes);
                 }
 
-                adjacencyList[i].add(ale2);
+                adjacencyList[i].add(randomVertex);
                 edgesPreenched++;
             }
         }
 
-        while (edgesPreenched < numEdges) {
+        while (edgesPreenched < edges) {
 
-            int ale1 = random.nextInt(1, vertexes);
-            int ale2 = random.nextInt(1, vertexes);
+            int randomSourceVertex = random.nextInt(1, vertexes);
+            int randomTargetVertex = random.nextInt(1, vertexes);
 
-            while (adjacencyList[ale1].contains(ale2)) {
-                ale2 = random.nextInt(1, vertexes);
+            while (adjacencyList[randomSourceVertex].contains(randomTargetVertex)) {
+                randomTargetVertex = random.nextInt(1, vertexes);
             }
 
-            adjacencyList[ale1].add(ale2);
+            adjacencyList[randomSourceVertex].add(randomTargetVertex);
             edgesPreenched++;
         }
 
         for (List list : adjacencyList) {
-            System.out.println(list);
+            String line = list.toString();
+            writer.write(line);
+            writer.newLine();
         }
 
         writer.close();

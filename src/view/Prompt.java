@@ -18,8 +18,7 @@ import util.Utility;
 */
 public class Prompt {
     
-    private Scanner userSc = new Scanner(System.in, "UTF-8");
-    private Scanner fileSc;
+    private static Scanner sc = new Scanner(System.in, "UTF-8");
 
     public void startPrompt() {
 
@@ -38,11 +37,11 @@ public class Prompt {
             System.out.println("");
             System.out.println("(0) -> Finish program.");
             System.out.println("================================== HUB ==================================");
-            System.out.print("Answer: "); short userChoice = userSc.nextShort();
+            System.out.print("Answer: "); short userChoice = sc.nextShort();
 
             while (!validChoice(userChoice, 4)) {
                 System.out.println("\nInvalid choice, try again!");
-                System.out.print("New Choice: "); userChoice = userSc.nextShort();
+                System.out.print("New Choice: "); userChoice = sc.nextShort();
             }
         }
 
@@ -50,12 +49,10 @@ public class Prompt {
         catch(IOException e) { e.printStackTrace(); }
 
         finally {
-            Graph.deleteGraphs(); 
-            if (fileSc != null && userSc != null) { 
-                fileSc.close(); 
-                userSc.close();
-            }
 
+            if (sc != null) { sc.close(); }
+
+            Graph.deleteGraphs();
             Utility.clearScreen();
             System.out.println("Program Finished!");
         }

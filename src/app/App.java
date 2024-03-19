@@ -15,11 +15,6 @@ import view.Prompt;
 */
 //-----------------------------------------------------
 
-/*
- * Main class for Application
- * 
- * @brief.: Just initiate the application
-*/
 public class App {
     public static void main(String[] args) throws Exception {
         Locale.setDefault(Locale.US);
