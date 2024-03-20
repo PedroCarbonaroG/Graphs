@@ -11,7 +11,7 @@ import java.util.Random;
 import util.List;
 
 public class Graph {
-    
+
     /**
      * Area for processing test files and correct instantiation of them,
      * pre-established graph size concepts
@@ -27,6 +27,26 @@ public class Graph {
 
     private static Random random = new Random();
 
+    /*
+     * Creating a static block when classe is instantiated
+     * to create all files that'll be used on system.
+    */
+    static {
+        try {
+            graph100File = new File(GRAPH100_FILE_PATH);
+            graph100File.createNewFile();
+
+            graph1KFile = new File(GRAPH1K_FILE_PATH);
+            graph1KFile.createNewFile();
+
+            graph10KFile = new File(GRAPH10K_FILE_PATH);
+            graph10KFile.createNewFile();
+
+            graph100KFile = new File(GRAPH100K_FILE_PATH);
+            graph100KFile.createNewFile();
+        } catch (IOException e) { e.printStackTrace(); }
+    }
+
     /**
      * @brief Create and fill with random values
      * all files used in system for manipulate 
@@ -35,21 +55,10 @@ public class Graph {
      * opening or manipulating the file
     */
     public static void createGraphs() throws IOException {
-        graph100File = new File(GRAPH100_FILE_PATH);
-        graph100File.createNewFile();
         createRandomGraph(graph100File, 100);
-
-        graph1KFile = new File(GRAPH1K_FILE_PATH);
-        graph1KFile.createNewFile();
-        createRandomGraph(graph1KFile, 10);
-
-        graph10KFile = new File(GRAPH10K_FILE_PATH);
-        graph10KFile.createNewFile();
-        createRandomGraph(graph10KFile, 10);
-        
-        graph100KFile = new File(GRAPH100K_FILE_PATH);
-        graph100KFile.createNewFile();
-        createRandomGraph(graph100KFile, 10);
+        createRandomGraph(graph1KFile, 100);
+        createRandomGraph(graph10KFile, 100);
+        createRandomGraph(graph100KFile, 100);
     }
     /**
      * @brief Method for create an random graph 
@@ -66,7 +75,9 @@ public class Graph {
 
         for (int i = 0; i < adjacencyList.length; i++) { adjacencyList[i] = new List(); }
 
-        int edges = (vertexes * (vertexes - 1)) / 2;
+        // The original math notation is (vertexes * (vertexes - 1)) / 2
+        // but for reasons of efficiency i'll divide for 10
+        int edges = (vertexes * (vertexes - 1)) / 10;
         int edgesPerVertex = edges / vertexes;
         int edgesPreenched = 0;
 
@@ -74,11 +85,10 @@ public class Graph {
             adjacencyList[i].add(j);
 
             for (int k = 0; k < random.nextInt(1, edgesPerVertex); k++) {
-
-                int randomVertex = random.nextInt(1, vertexes);
-                while (adjacencyList[i].contains(randomVertex)) {
+                int randomVertex;
+                do {
                     randomVertex = random.nextInt(1, vertexes);
-                }
+                } while (adjacencyList[i].contains(randomVertex));
 
                 adjacencyList[i].add(randomVertex);
                 edgesPreenched++;
@@ -86,18 +96,20 @@ public class Graph {
         }
 
         while (edgesPreenched < edges) {
-
             int randomSourceVertex = random.nextInt(1, vertexes);
             int randomTargetVertex = random.nextInt(1, vertexes);
 
-            while (adjacencyList[randomSourceVertex].contains(randomTargetVertex)) {
+            do {
                 randomTargetVertex = random.nextInt(1, vertexes);
             }
+            while (adjacencyList[randomSourceVertex].contains(randomTargetVertex));
 
             adjacencyList[randomSourceVertex].add(randomTargetVertex);
             edgesPreenched++;
         }
 
+        writer.write(vertexes + " " + edges);
+        writer.newLine();
         for (List list : adjacencyList) {
             String line = list.toString();
             writer.write(line);

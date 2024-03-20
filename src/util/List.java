@@ -57,7 +57,7 @@ public class List {
         StringBuilder sb = new StringBuilder();
         sb.append(head.getNext().getElement() + ": ");
         for (Node n = head.getNext().getNext(); n != null; n = n.getNext()) {
-            sb.append(n.getElement() + " -> ");
+            sb.append(n.getElement() + " - ");
         }
         return sb.toString();
     }
