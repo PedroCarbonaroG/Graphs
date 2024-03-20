@@ -56,9 +56,9 @@ public class Graph {
     */
     public static void createGraphs() throws IOException {
         createRandomGraph(graph100File, 100);
-        createRandomGraph(graph1KFile, 100);
-        createRandomGraph(graph10KFile, 100);
-        createRandomGraph(graph100KFile, 100);
+        createRandomGraph(graph1KFile, 1000);
+        createRandomGraph(graph10KFile, 10000);
+        createRandomGraph(graph100KFile, 100000);
     }
     /**
      * @brief Method for create an random graph 
@@ -75,10 +75,32 @@ public class Graph {
 
         for (int i = 0; i < adjacencyList.length; i++) { adjacencyList[i] = new List(); }
 
-        // The original math notation is (vertexes * (vertexes - 1)) / 2
-        // but for reasons of efficiency i'll divide for 10
-        int edges = (vertexes * (vertexes - 1)) / 10;
-        int edgesPerVertex = edges / vertexes;
+        /*
+         * For didactic purposes i'll do each step of
+         * initiation of all variables.
+         * 
+         * Considerate that graph will be ever connected
+         * so it components'll be always one.
+         * 
+         * Here the focus is not on efficiency or well-structured code.
+        */
+
+        //Mathematic expression to calculate minimun adges in graph
+        // G = (V, E) n->Vertexes k->Components, minEdges = n-k;
+        int minEdges = vertexes - 1;
+
+        //Mathematic expression to calculate maximum adges in graph
+        // G = (V, E) n->Vertexes k->Components, maxEdges = ((n-k) * (n-k+1)) / 2;
+        // FOR EFFICIENCY REASONS I'LL DIVIDE FOR 20.
+        int maxEdges = ((vertexes - 1) * (vertexes - 1 + 1)) / 20;
+
+        // Generating the number of edges for graph
+        int edges = random.nextInt(minEdges, maxEdges);
+
+        //Mathematic expression to calculate maximum adges for a vertex
+        // G = (V, E) v->Vertexes e->Edges, maxEdgesPerVertex = (2*e) / v;
+        int edgesPerVertex = (2 * edges) / vertexes;
+
         int edgesPreenched = 0;
 
         for (int i = 0, j = 1; i < adjacencyList.length; i++, j++) {
