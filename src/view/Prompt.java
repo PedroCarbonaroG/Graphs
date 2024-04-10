@@ -1,12 +1,13 @@
 //Dependencys
 package view;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.Scanner;
 
-import entities.Graph;
+import entities.GraphGenerator;
 
 import util.Utility;
 
@@ -18,14 +19,51 @@ import util.Utility;
 */
 public class Prompt {
     
+    /**
+     * Area for processing test files and correct instantiation of them,
+     * pre-established graph size concepts
+    */
+    private static final String GRAPH100_FILE_PATH = "./lib/Graph100.txt";
+    private static final String GRAPH1K_FILE_PATH = "./lib/Graph1K.txt";
+    private static final String GRAPH10K_FILE_PATH = "./lib/Graph10K.txt";
+    private static final String GRAPH100K_FILE_PATH = "./lib/Graph100K.txt";
+    public static File graph100File;
+    public static File graph1KFile;
+    public static File graph10KFile;
+    public static File graph100KFile;
+
     private static Scanner sc = new Scanner(System.in, "UTF-8");
+
+    /*
+     * Creating a static block when classe is instantiated
+     * to create all files that'll be used on system.
+    */
+    static {
+        try {
+            graph100File = new File(GRAPH100_FILE_PATH);
+            graph100File.createNewFile();
+
+            graph1KFile = new File(GRAPH1K_FILE_PATH);
+            graph1KFile.createNewFile();
+
+            graph10KFile = new File(GRAPH10K_FILE_PATH);
+            graph10KFile.createNewFile();
+
+            graph100KFile = new File(GRAPH100K_FILE_PATH);
+            graph100KFile.createNewFile();
+        } catch (IOException e) { e.printStackTrace(); }
+    }
 
     public void startPrompt() {
 
         try {
 
             Utility.clearScreen();
-            Graph.createGraphs();
+
+            GraphGenerator.createGraph(graph100File, 100);
+            GraphGenerator.createGraph(graph1KFile, 1000);
+            GraphGenerator.createGraph(graph10KFile, 10000);
+            GraphGenerator.createGraph(graph100KFile, 100000);
 
             System.out.println("================================== HUB ==================================");
             System.out.println("How graph file will be tested, Options:");
@@ -43,6 +81,7 @@ public class Prompt {
                 System.out.println("\nInvalid choice, try again!");
                 System.out.print("New Choice: "); userChoice = sc.nextShort();
             }
+
         }
 
         catch(FileNotFoundException e) { e.printStackTrace(); }
@@ -52,7 +91,11 @@ public class Prompt {
 
             if (sc != null) { sc.close(); }
 
-            Graph.deleteGraphs();
+            GraphGenerator.deleteGraph(graph100File);
+            GraphGenerator.deleteGraph(graph1KFile);
+            GraphGenerator.deleteGraph(graph10KFile);
+            GraphGenerator.deleteGraph(graph100KFile);
+
             Utility.clearScreen();
             System.out.println("Program Finished!");
         }

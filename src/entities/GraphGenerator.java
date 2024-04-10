@@ -10,42 +10,10 @@ import java.util.Random;
 
 import util.List;
 
-public class Graph {
+public class GraphGenerator {
 
-    /**
-     * Area for processing test files and correct instantiation of them,
-     * pre-established graph size concepts
-    */
-    private static final String GRAPH100_FILE_PATH = "./lib/Graph100.txt";
-    private static final String GRAPH1K_FILE_PATH = "./lib/Graph1K.txt";
-    private static final String GRAPH10K_FILE_PATH = "./lib/Graph10K.txt";
-    private static final String GRAPH100K_FILE_PATH = "./lib/Graph100K.txt";
-    public static File graph100File;
-    public static File graph1KFile;
-    public static File graph10KFile;
-    public static File graph100KFile;
-
+    //To generate random values for vertexes and edges
     private static Random random = new Random();
-
-    /*
-     * Creating a static block when classe is instantiated
-     * to create all files that'll be used on system.
-    */
-    static {
-        try {
-            graph100File = new File(GRAPH100_FILE_PATH);
-            graph100File.createNewFile();
-
-            graph1KFile = new File(GRAPH1K_FILE_PATH);
-            graph1KFile.createNewFile();
-
-            graph10KFile = new File(GRAPH10K_FILE_PATH);
-            graph10KFile.createNewFile();
-
-            graph100KFile = new File(GRAPH100K_FILE_PATH);
-            graph100KFile.createNewFile();
-        } catch (IOException e) { e.printStackTrace(); }
-    }
 
     /**
      * @brief Create and fill with random values
@@ -54,11 +22,8 @@ public class Graph {
      * @throws IOException if something goes wrong 
      * opening or manipulating the file
     */
-    public static void createGraphs() throws IOException {
-        createRandomGraph(graph100File, 100);
-        createRandomGraph(graph1KFile, 1000);
-        createRandomGraph(graph10KFile, 10000);
-        createRandomGraph(graph100KFile, 100000);
+    public static void createGraph(File target, int vertexes) throws IOException {
+        createRandomGraph(target, vertexes);
     }
     /**
      * @brief Method for create an random graph 
@@ -82,7 +47,7 @@ public class Graph {
          * Considerate that graph will be ever connected
          * so it components'll be always one.
          * 
-         * Here the focus is not on efficiency or well-structured code.
+         * Here the focus isn't on efficiency or well-structured code.
         */
 
         //Mathematic expression to calculate minimun adges in graph
@@ -145,10 +110,7 @@ public class Graph {
      * @brief Delete all files used in system 
      * for manipulate graphs
     */
-    public static void deleteGraphs() {
-        graph100File.delete();
-        graph1KFile.delete();
-        graph10KFile.delete();
-        graph100KFile.delete();
+    public static void deleteGraph(File target) {
+        target.delete();
     }
 }
