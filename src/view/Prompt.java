@@ -34,12 +34,16 @@ public class Prompt {
 
     private static Scanner sc = new Scanner(System.in, "UTF-8");
 
-    /*
-     * Creating a static block when classe is instantiated
-     * to create all files that'll be used on system.
-    */
-    static {
+    public void startPrompt() {
+
         try {
+
+            //---------------------------------------------------------------------------------------------------------//
+
+            //Cleaning the prompt last messages
+            Utility.clearScreen();
+
+            //Creating all files for graphs and starting them with random graphs with x vertexes.
             graph100File = new File(GRAPH100_FILE_PATH);
             graph100File.createNewFile();
 
@@ -51,37 +55,54 @@ public class Prompt {
 
             graph100KFile = new File(GRAPH100K_FILE_PATH);
             graph100KFile.createNewFile();
-        } catch (IOException e) { e.printStackTrace(); }
-    }
-
-    public void startPrompt() {
-
-        try {
-
-            Utility.clearScreen();
 
             GraphGenerator.createGraph(graph100File, 100);
-            GraphGenerator.createGraph(graph1KFile, 1000);
-            GraphGenerator.createGraph(graph10KFile, 10000);
-            GraphGenerator.createGraph(graph100KFile, 100000);
+            GraphGenerator.createGraph(graph1KFile, 100);
+            GraphGenerator.createGraph(graph10KFile, 100);
+            GraphGenerator.createGraph(graph100KFile, 100);
+            
+            //---------------------------------------------------------------------------------------------------------//
+            
+            short userChoice = 1;
 
-            System.out.println("================================== HUB ==================================");
-            System.out.println("How graph file will be tested, Options:");
-            System.out.println("Note: All graphs have twice as many edges as vertices.");
-            System.out.println("(1) -> Graph with 100 vertexes.");
-            System.out.println("(2) -> Graph with 1.000 vertexes.");
-            System.out.println("(3) -> Graph with 10.000 vertexes.");
-            System.out.println("(4) -> Graph with 100.000 vertexes.");
-            System.out.println("");
-            System.out.println("(0) -> Finish program.");
-            System.out.println("================================== HUB ==================================");
-            System.out.print("Answer: "); short userChoice = sc.nextShort();
+            do {
+            
+                System.out.println("================================== HUB ==================================");
+                System.out.println("How graph file will be tested, Options:");
+                System.out.println("Note: All three algorithms'll be tested and them show the answers.");
+                System.out.println("(1) -> Graph with 100 vertexes.");
+                System.out.println("(2) -> Graph with 1.000 vertexes.");
+                System.out.println("(3) -> Graph with 10.000 vertexes.");
+                System.out.println("(4) -> Graph with 100.000 vertexes.");
+                System.out.println("(5) -> All graphs above.");
+                System.out.println("");
+                System.out.println("(0) -> Finish program.");
+                System.out.println("================================== HUB ==================================");
+                System.out.print("Answer: ");
+                userChoice = sc.nextShort();
 
-            while (!validChoice(userChoice, 4)) {
-                System.out.println("\nInvalid choice, try again!");
-                System.out.print("New Choice: "); userChoice = sc.nextShort();
-            }
+                while (!validChoice(userChoice, 6)) {
+                    System.out.println("\nInvalid choice, try again!");
+                    System.out.print("New Choice: "); userChoice = sc.nextShort();
+                }
 
+                //---------------------------------------------------------------------------------------------------------//
+
+                Utility.clearScreen();
+
+                //Algorithms here
+                System.out.println("Algorithm anwsers comes here!");
+
+                //---------------------------------------------------------------------------------------------------------//
+
+                if (userChoice != 0) {
+                    System.out.print("\nPress enter to finish the overview!");
+                    sc.nextLine();
+                    sc.nextLine();
+                    Utility.clearScreen();
+                }
+
+            } while (validChoice(userChoice));
         }
 
         catch(FileNotFoundException e) { e.printStackTrace(); }
@@ -102,11 +123,20 @@ public class Prompt {
     }
 
     /**
-     * Validchecker method.
+     * @brief Used to check if user choice was valid
      * 
-     * @param int x -> Variable used to check if that option
+     * @param int userChoice used to check if that option
      * is valid for the application.
-     * @param int limit -> Variable used to set the limit
+     * @param int limit used to set the limit
     */
-    private boolean validChoice(int x, int limit) { return x >= 0 && x <= limit; }
+    private boolean validChoice(int userChoice, int limit) { return userChoice >= 0 && userChoice < limit; }
+
+    /**
+     * @brief Used for check if user wants to finish
+     * the program.
+     * 
+     * @param int userChoice used to check if that option
+     * is valid for the application.
+    */
+    private boolean validChoice(int userChoice) { return userChoice == 0 ? false : true; }
 }

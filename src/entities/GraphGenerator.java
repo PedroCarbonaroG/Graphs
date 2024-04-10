@@ -18,6 +18,9 @@ public abstract class GraphGenerator extends GraphAlgorithms {
      * @brief Create and fill with random values
      * all files used in system for manipulate 
      * graphs
+     * 
+     * @param target File that will have the generated graph
+     * @param vertexes maximum number of vertices
      * @throws IOException if something goes wrong 
      * opening or manipulating the file
     */
@@ -68,7 +71,7 @@ public abstract class GraphGenerator extends GraphAlgorithms {
         int edgesPreenched = 0;
 
         /*
-         * Describe the method here
+         * First part, starts to fill all vertexes with minimum quantity of edges
         */
         for (int i = 0, j = 1; i < adjacencyList.length; i++, j++) {
             adjacencyList[i].add(j);
@@ -85,7 +88,9 @@ public abstract class GraphGenerator extends GraphAlgorithms {
         }
 
         /*
-         * Describe the method here
+         * Second part, finish to fill all vertexes with the ideal amount
+         * of edges per vertex, because the first part only garaties
+         * that the minimum'll be preenched, not the ideal amount.
         */
         while (edgesPreenched < edges) {
             int randomSourceVertex = random.nextInt(1, vertexes);
@@ -115,8 +120,10 @@ public abstract class GraphGenerator extends GraphAlgorithms {
     }
 
     /**
-     * @brief Delete all files used in system 
-     * for manipulate graphs
+     * @brief Delete the file that contains
+     * a graph.
+     * 
+     * @param target File that will be deleted
     */
     public static void deleteGraph(File target) {
         target.delete();
