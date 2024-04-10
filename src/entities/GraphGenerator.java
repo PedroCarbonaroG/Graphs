@@ -8,12 +8,11 @@ import java.io.IOException;
 
 import java.util.Random;
 
+import algorithms.GraphAlgorithms;
+
 import util.List;
 
-public class GraphGenerator {
-
-    //To generate random values for vertexes and edges
-    private static Random random = new Random();
+public abstract class GraphGenerator extends GraphAlgorithms {
 
     /**
      * @brief Create and fill with random values
@@ -35,6 +34,7 @@ public class GraphGenerator {
      */
     private static void createRandomGraph(File source, int vertexes) throws IOException {
 
+        Random random = new Random();
         BufferedWriter writer = new BufferedWriter(new FileWriter(source));
         List[] adjacencyList = new List[vertexes];
 
@@ -65,9 +65,11 @@ public class GraphGenerator {
         //Mathematic expression to calculate maximum adges for a vertex
         // G = (V, E) v->Vertexes e->Edges, maxEdgesPerVertex = (2*e) / v;
         int edgesPerVertex = (2 * edges) / vertexes;
-
         int edgesPreenched = 0;
 
+        /*
+         * Describe the method here
+        */
         for (int i = 0, j = 1; i < adjacencyList.length; i++, j++) {
             adjacencyList[i].add(j);
 
@@ -82,6 +84,9 @@ public class GraphGenerator {
             }
         }
 
+        /*
+         * Describe the method here
+        */
         while (edgesPreenched < edges) {
             int randomSourceVertex = random.nextInt(1, vertexes);
             int randomTargetVertex = random.nextInt(1, vertexes);
@@ -95,6 +100,9 @@ public class GraphGenerator {
             edgesPreenched++;
         }
 
+        /*
+         * Writting all graph into target file
+        */
         writer.write(vertexes + " " + edges);
         writer.newLine();
         for (List list : adjacencyList) {
