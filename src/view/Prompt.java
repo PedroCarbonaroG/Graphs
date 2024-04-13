@@ -56,10 +56,10 @@ public class Prompt {
             graph100KFile = new File(GRAPH100K_FILE_PATH);
             graph100KFile.createNewFile();
 
-            GraphGenerator.createGraph(graph100File, 100);
-            GraphGenerator.createGraph(graph1KFile, 100);
-            GraphGenerator.createGraph(graph10KFile, 100);
-            GraphGenerator.createGraph(graph100KFile, 100);
+            GraphGenerator.createGraph(graph100File, 40);
+            GraphGenerator.createGraph(graph1KFile, 40);
+            GraphGenerator.createGraph(graph10KFile, 40);
+            GraphGenerator.createGraph(graph100KFile, 40);
             
             //---------------------------------------------------------------------------------------------------------//
             
@@ -75,7 +75,7 @@ public class Prompt {
                 System.out.println("(3) -> Graph with 10.000 vertexes.");
                 System.out.println("(4) -> Graph with 100.000 vertexes.");
                 System.out.println("(5) -> All graphs above.");
-                System.out.println("");
+                System.out.println();
                 System.out.println("(0) -> Finish program.");
                 System.out.println("================================== HUB ==================================");
                 System.out.print("Answer: ");
@@ -90,8 +90,7 @@ public class Prompt {
 
                 Utility.clearScreen();
 
-                //Algorithms here
-                System.out.println("Algorithm anwsers comes here!");
+                GraphGenerator.identifyArticulations(GRAPH100_FILE_PATH);
 
                 //---------------------------------------------------------------------------------------------------------//
 
@@ -138,5 +137,5 @@ public class Prompt {
      * @param int userChoice used to check if that option
      * is valid for the application.
     */
-    private boolean validChoice(int userChoice) { return userChoice == 0 ? false : true; }
+    private boolean validChoice(int userChoice) { return userChoice != 0; }
 }
