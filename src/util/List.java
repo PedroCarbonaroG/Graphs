@@ -55,13 +55,12 @@ public class List {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(head.getNext().getElement() + ": ");
+        sb.append(head.getNext().getElement()).append(": ");
         for (Node n = head.getNext().getNext(); n != null; n = n.getNext()) {
-            sb.append(n.getElement() + " - ");
+            sb.append(n.getElement()).append(" - ");
         }
         return sb.toString();
     }
-
 }
 
 /*

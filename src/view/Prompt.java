@@ -32,7 +32,7 @@ public class Prompt {
     public static File graph10KFile;
     public static File graph100KFile;
 
-    private static Scanner sc = new Scanner(System.in, "UTF-8");
+    private static final Scanner sc = new Scanner(System.in, "UTF-8");
 
     public void startPrompt() {
 
@@ -56,10 +56,10 @@ public class Prompt {
             graph100KFile = new File(GRAPH100K_FILE_PATH);
             graph100KFile.createNewFile();
 
-            GraphGenerator.createGraph(graph100File, 40);
-            GraphGenerator.createGraph(graph1KFile, 40);
-            GraphGenerator.createGraph(graph10KFile, 40);
-            GraphGenerator.createGraph(graph100KFile, 40);
+            GraphGenerator.createGraph(graph100File, 100);
+            GraphGenerator.createGraph(graph1KFile, 1000);
+            GraphGenerator.createGraph(graph10KFile, 10000);
+            GraphGenerator.createGraph(graph100KFile, 100000);
             
             //---------------------------------------------------------------------------------------------------------//
             
@@ -90,8 +90,6 @@ public class Prompt {
 
                 Utility.clearScreen();
 
-                GraphGenerator.identifyArticulations(GRAPH100_FILE_PATH);
-
                 //---------------------------------------------------------------------------------------------------------//
 
                 if (userChoice != 0) {
@@ -109,7 +107,7 @@ public class Prompt {
 
         finally {
 
-            if (sc != null) { sc.close(); }
+            sc.close();
 
             GraphGenerator.deleteGraph(graph100File);
             GraphGenerator.deleteGraph(graph1KFile);
